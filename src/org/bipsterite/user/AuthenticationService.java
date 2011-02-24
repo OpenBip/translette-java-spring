@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.bipsterite.service;
+package org.bipsterite.user;
 
 /**
  * @author bippy
