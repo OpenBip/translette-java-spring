@@ -1,0 +1,26 @@
+<project name="translette-java-spring" basedir="..">
+
+  <property name="src.dir" value="src" />
+  <property name="publish.dir" value="publish" />
+  <property name="web-lib.dir" value="WebContent/WEB-INF/lib" />
+  
+  <property name="TOMCAT_HOME" value="/opt/local/share/java/tomcat6/lib" />
+
+
+  <target name="Compile">
+    
+    <delete dir="${publish.dir}" />
+    <mkdir dir="${publish.dir}" />
+
+    <javac srcdir="${src.dir}"
+         destdir="${publish.dir}"
+         debug="on"
+         includeantruntime="false">
+      <classpath>
+        <pathelement location="${web-lib.dir}" />
+        <pathelement location="${TOMCAT_HOME}" />
+      </classpath>
+    </javac>
+
+  </target>
+</project>
