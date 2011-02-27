@@ -1,19 +1,20 @@
 <project name="translette-java-spring" basedir="..">
 
   <property name="src.dir" value="src" />
+  <property name="unit-src.dir" value="unit" />
   <property name="publish.dir" value="publish" />
   <property name="web-lib.dir" value="WebContent/WEB-INF/lib" />
   
   <property name="TOMCAT_HOME" value="/opt/local/share/java/tomcat6/lib" />
 
-
-  <target name="Compile">
+  <target name="compile-webapp">
     
     <delete dir="${publish.dir}" />
     <mkdir dir="${publish.dir}" />
+    <mkdir dir="${publish.dir}/java" />
 
     <javac srcdir="${src.dir}"
-         destdir="${publish.dir}"
+         destdir="${publish.dir}/java"
          debug="on"
          includeantruntime="false">
       <classpath>
@@ -22,5 +23,40 @@
       </classpath>
     </javac>
 
+  </target>
+  
+  <target name="compile-unit" depends="compile-webapp">
+    <mkdir dir="${publish.dir}/unit" />
+
+    <javac srcdir="${unit-src.dir}"
+         destdir="${publish.dir}/unit"
+         debug="on"
+         includeantruntime="false">
+      <classpath>
+        <pathelement location="${publish.dir}/java" />
+        <pathelement location="${web-lib.dir}" />
+        <pathelement location="${TOMCAT_HOME}" />
+        <pathelement location="/Applications/Dev/eclipse-helios-3.6.2/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar" />
+      </classpath>
+    </javac>
+
+  </target>
+
+  <target name="unit-tests" depends="compile-unit">
+    <junit printsummary="yes">
+      <classpath>
+        <pathelement location="${web-lib.dir}" />
+        <pathelement location="${TOMCAT_HOME}" />
+        <pathelement location="${publish.dir}/java" />
+        <pathelement location="${publish.dir}/unit" />
+        <pathelement location="/Applications/Dev/eclipse-helios-3.6.2/plugins/org.junit_4.8.1.v4_8_1_v20100427-1100/junit.jar" />
+        <pathelement location="/Applications/Dev/eclipse-helios-3.6.2/plugins/org.hamcrest.core_1.1.0.v20090501071000.jar" />
+      </classpath>
+      
+      <test name="org.bipsterite.AuthenticationServiceTests"
+          outfile="${publish.dir}/junit-report">
+        <formatter type="xml" />
+      </test>
+    </junit>
   </target>
 </project>
