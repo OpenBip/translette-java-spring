@@ -60,7 +60,7 @@
     </junit>
   </target>
   
-  <target name="javadoc">
+  <target name="javadoc" depends="unit-tests">
     <mkdir dir="${publish.dir}/docs" />
     <javadoc sourcepath="${src.dir}"
         destdir="${publish.dir}/docs"></javadoc>
